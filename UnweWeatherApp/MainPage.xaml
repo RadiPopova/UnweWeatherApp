@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local = "using:UnweWeatherApp"
+             x:Class="UnweWeatherApp.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="labelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="Margin" Value="40,0,0,0" />
+                <Setter Property="TextColor" Value="Navy" />
+            </Style>
+            <Style x:Key="labelResultStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Micro" />
+                <Setter Property="Margin" Value="40,0,0,0" />
+                <Setter Property="TextColor" Value="MediumBlue" />
+            </Style>
+            <Style x:Key="location" TargetType="Label">
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="FontFamily" Value="system-ui"/>
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="MediumBlue" />
+            </Style>
+            <Style x:Key="temp" TargetType="Label">
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="FontFamily" Value="system-ui"/>
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="MediumBlue" />
+            </Style>
+            <local:LongToDateTimeConverter x:Key="longToDateTimeConverter" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <VerticalStackLayout
+            Spacing="1"
+            Padding="1,0"
+            BackgroundColor="LightSteelBlue"
+            >
+
+        <Grid BackgroundColor="LightSteelBlue" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Image
+                Grid.Row="1" 
+                Grid.Column="0" 
+                Source="search.png"
+                HeightRequest="40" 
+                WidthRequest="40"
+                Background="LightSteelBlue"
+                />
+
+            <Label Grid.Row="0"
+                    Grid.ColumnSpan="3"                
+                    Text="Search by city:"
+                    FontFamily="serif"
+                    FontAttributes="Bold"
+                    SemanticProperties.HeadingLevel="Level1"
+                    TextColor="Black"
+                    FontSize="24"
+                    HorizontalOptions="Center" />
+
+
+            <Entry x:Name="_cityEntry"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Text= " "
+                   TextColor="Black"
+                   BackgroundColor="AliceBlue"
+                   SemanticProperties.HeadingLevel="Level1"
+                   FontSize="16"/>
+
+            <Button Grid.Row="1"
+                    Grid.Column="2"
+                    Text="Search"
+                    SemanticProperties.HeadingLevel="Level1"
+                    FontSize="18"
+                    Clicked="OnGetWeatherButtonClicked"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
+        </Grid>
+
+        <ScrollView>
+
+            <StackLayout
+                Margin="4"
+                Padding="3">
+
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+
+
+                    <Label Grid.Column="1" Text="{Binding name}" Style="{StaticResource location}" HorizontalOptions="Center"  VerticalOptions="Center" />
+
+                    <Image Grid.Row="1" Grid.Column="1" Source="{Binding weather[0].icon}" HeightRequest="80" WidthRequest="80" HorizontalOptions="Center" VerticalOptions="Center" />
+                    
+                    <Image Grid.Row="2" Source="wind.png" HeightRequest="40"  WidthRequest="40" HorizontalOptions="Center"  VerticalOptions="Center" />
+
+                    <Label Grid.Row="3" Text="{Binding wind.speed}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Start" VerticalOptions="Center"/>
+ 
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding main.temp}" Style="{StaticResource temp}" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                    <Image Grid.Row="2" Grid.Column="2" Source="humidity.png" HeightRequest="40" WidthRequest="40" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                    <Label Grid.Row="3"  Grid.Column="3" Text="{Binding main.humidity}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Start" VerticalOptions="Center" />
+                </Grid>
+
+
+
+                <Label Text="Feels like" Style="{StaticResource labelStyle}" />
+                <Label Text="{Binding main.feels_like}" Style="{StaticResource labelResultStyle}" />
+                <Label Text="Visibility" Style="{StaticResource labelStyle}" />
+                <Label Text="{Binding visibility}" Style="{StaticResource labelResultStyle}" />
+                <Label Text="Time of Sunrise " Style="{StaticResource labelStyle}" />
+                <Label Text="{Binding sys.sunrise, Converter={StaticResource longToDateTimeConverter}}" Style="{StaticResource labelResultStyle}" />
+                <Label Text="Time of Sunset" Style="{StaticResource labelStyle}" />
+                <Label Text="{Binding sys.sunset, Converter={StaticResource longToDateTimeConverter}}" Style="{StaticResource labelResultStyle}" />
+            </StackLayout>
+        </ScrollView>
+
+    </VerticalStackLayout>
+
+</ContentPage>
