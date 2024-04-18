@@ -1,16 +1,24 @@
-﻿namespace UnweWeatherApp
+﻿using System.ComponentModel;
+using static UnweWeatherApp.WeatherData;
+
+namespace UnweWeatherApp
 {
     public partial class MainPage : ContentPage
     {
         OpenWeatherService _openWeatherService;
 
+        public string TodayPlusTwo { get; set; } = DateTime.Now.AddDays(2).DayOfWeek.ToString();
+        public string TodayPlusThree { get; set; } = DateTime.Now.AddDays(3).DayOfWeek.ToString();
+        public string TodayPlusFour { get; set; } = DateTime.Now.AddDays(4).DayOfWeek.ToString();
 
+        
+       
         public MainPage()
         {
             InitializeComponent();
             _openWeatherService = new OpenWeatherService();
             GetWeatherWithGeoLocation();
-
+            //GetForecastData();
         }
         string GenerateRequestUri(string endpoint)
         {
@@ -32,23 +40,29 @@
         }
 
 
-        public async void OnGetWeatherButtonClicked(object sender, EventArgs e) 
+        public async void OnGetWeatherButtonClicked(object sender, EventArgs e)
         {
+            var location = await Geolocation.GetLocationAsync();
+
             if (!string.IsNullOrWhiteSpace(_cityEntry.Text))
             {
+
                 WeatherData weatherData = await _openWeatherService.GetWeatherData(GenerateRequestUri(Constants.OpenWeatherMapEndpoint));
-                //Image image = new Image
-                //{
-                //    Source = ImageSource.FromUri(new Uri(("https://openweathermap.org/img/wn/" + weatherData.weather[0].icon + ".png")))
-                //};
+
                 weatherData.weather[0].icon = ("http://openweathermap.org/img/wn/" + weatherData.weather[0].icon + ".png");
+
                 BindingContext = weatherData;
+            }
+
+            else if (string.IsNullOrWhiteSpace(_cityEntry.Text))
+            {
+                GetWeatherWithGeoLocation();
+
             }
         }
         public async void GetWeatherWithGeoLocation()
         {
             var location = await Geolocation.GetLocationAsync();
-
             if (location != null)
             {
                 var lat = location.Latitude;
@@ -57,10 +71,8 @@
                 weatherData.weather[0].icon = "http://openweathermap.org/img/wn/" + weatherData.weather[0].icon + ".png";
                 BindingContext = weatherData;
             }
+       
         }
-
-
-
 
     }
 }

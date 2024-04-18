@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnweWeatherApp;
 
 namespace UnweWeatherApp
 {
@@ -33,6 +34,25 @@ namespace UnweWeatherApp
                 Debug.WriteLine("\t\tERROR {0}", ex.Message);
             }
             return weatherData;
+        }
+
+        public async Task<List<List>> GetForecastData(string query)
+        {
+            ForecastData forecastData = null;
+            try
+            {
+                var response = await _httpClient.GetAsync(query);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    forecastData = JsonConvert.DeserializeObject<ForecastData>(content);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("\t\tERROR {0}", ex.Message);
+            }
+            return forecastData.list;
         }
     }
 }
