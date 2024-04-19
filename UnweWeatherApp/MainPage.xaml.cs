@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using static UnweWeatherApp.WeatherData;
 
 namespace UnweWeatherApp
@@ -11,14 +12,23 @@ namespace UnweWeatherApp
         public string TodayPlusThree { get; set; } = DateTime.Now.AddDays(3).DayOfWeek.ToString();
         public string TodayPlusFour { get; set; } = DateTime.Now.AddDays(4).DayOfWeek.ToString();
 
+        private List<List> forecastData {  get; set; }
+
         
-       
+
         public MainPage()
         {
             InitializeComponent();
             _openWeatherService = new OpenWeatherService();
-            GetWeatherWithGeoLocation();
-            //GetForecastData();
+            forecastData = new List<List>();
+            InitalRender();
+        }
+
+        private async Task InitalRender()
+        {
+            await GetWeatherWithGeoLocation();
+            await GetForecastData();
+            
         }
         string GenerateRequestUri(string endpoint)
         {
@@ -60,7 +70,7 @@ namespace UnweWeatherApp
 
             }
         }
-        public async void GetWeatherWithGeoLocation()
+        public async Task GetWeatherWithGeoLocation()
         {
             var location = await Geolocation.GetLocationAsync();
             if (location != null)
@@ -73,6 +83,38 @@ namespace UnweWeatherApp
             }
        
         }
+        public async Task GetForecastData()
+        {
+            var location = await Geolocation.GetLocationAsync();
+
+            if (location != null)
+            {
+                var lat = location.Latitude;
+                var lon = location.Longitude;
+                forecastData = await _openWeatherService.GetForecastData(GenerateRequestUriGeo(Constants.OpenWeatherMapGeo, lat, lon));
+                foreach (var row in forecastData)
+                {
+                    string originalDateTimeString = row.dt_txt.ToString();
+                    DateTime originalDateTime = DateTime.Parse(originalDateTimeString);
+                    
+                    if (originalDateTime.TimeOfDay == TimeSpan.Zero)
+                    {
+                        
+                        originalDateTime = originalDateTime.AddDays(1);
+                    }
+
+                    DateTime dateOnly = originalDateTime.Date;
+                    string formattedDate = dateOnly.ToLocalTime().ToString("dd.MM");
+
+                    row.FormattedDate = formattedDate;
+                    Trace.WriteLine(row.FormattedDate  + "  /  " + row.main.temp + "  /  " + row.dt);
+                }
+                forecastDataList.ItemsSource = forecastData;
+            }
+        }
+       
+
 
     }
+
 }

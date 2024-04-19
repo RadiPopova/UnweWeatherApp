@@ -4,14 +4,15 @@
              xmlns:local = "using:UnweWeatherApp"
              x:Class="UnweWeatherApp.MainPage"
              WidthRequest="360"
-             HeightRequest="740">
+             HeightRequest="700">
     
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="labelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="Small" />
                 <Setter Property="Margin" Value="40,0,0,0" />
-                <Setter Property="TextColor" Value="Navy" />
+                <Setter Property="TextColor" Value="#154163" />
+                <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
             <Style x:Key="labelResultStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="Micro" />
@@ -23,14 +24,15 @@
                 <Setter Property="FontFamily" Value="system-ui"/>
                 <Setter Property="Margin" Value="10,0,0,0" />
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="TextColor" Value="MediumBlue" />
+                <Setter Property="TextColor" Value="#154163" />
+                <Setter Property="FontAttributes" Value="Italic"/>
             </Style>
             <Style x:Key="temp" TargetType="Label">
-                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontSize" Value="27" />
                 <Setter Property="FontFamily" Value="system-ui"/>
                 <Setter Property="Margin" Value="10,0,0,0" />
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="TextColor" Value="MediumBlue" />
+                <Setter Property="TextColor" Value="#154163" />
             </Style>
             <local:LongToDateTimeConverter x:Key="longToDateTimeConverter" />
         </ResourceDictionary>
@@ -97,8 +99,6 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
@@ -107,48 +107,79 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <Image Grid.Row="0" Grid.Column="2" Source="{Binding weather[0].icon}" HeightRequest="80" WidthRequest="80" HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding main.temp, StringFormat= '{}{0} °C'}" Style="{StaticResource temp}" HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Label Grid.Row="1" Text="{Binding name}" Style="{StaticResource location}" HorizontalOptions="Center"  VerticalOptions="Center" />
+                    <Image Grid.Row="0" Grid.Column="2" Source="{Binding weather[0].icon}" HeightRequest="90" WidthRequest="90" HorizontalOptions="Center" VerticalOptions="Center" />
+                    <Label Grid.Row="0" Text="{Binding main.temp, StringFormat= '{}{0} °C'}" Style="{StaticResource temp}" HorizontalOptions="End" VerticalOptions="Center" />
+                    <Label Grid.Row="1" Text="{Binding name}" Style="{StaticResource location}" HorizontalOptions="End"  VerticalOptions="Center" />
                     <Image Grid.Row="1" Grid.Column="1"  Source="map.png" HeightRequest="20" WidthRequest="20" HorizontalOptions="Start" VerticalOptions="Center" />
-
-                    
                 </Grid>
                 <Label></Label>
-                <Grid BackgroundColor="SteelBlue" 
-                      Padding="4"
-                      >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <Frame BackgroundColor="#154163" 
+                       BorderColor="LightGray"
+                       HasShadow="True"
+                       CornerRadius="12"
+                       >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <Image Grid.Row="0"  Source="wind.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
-                    <Label Grid.Row="1"  Text="{Binding wind.speed, StringFormat= '{}{0} m/s'}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Image Grid.Row="0"  Source="wind.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Label Grid.Row="1"  Text="{Binding wind.speed, StringFormat= '{}{0} m/s'}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center" />
 
-                    <Image Grid.Row="0"  Grid.Column="1" Source="humidity.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-                    <Label Grid.Row="1" Grid.Column="1"  Text="{Binding main.humidity, StringFormat= '{}{0} %'}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Image Grid.Row="0"  Grid.Column="1" Source="humidity.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+                        <Label Grid.Row="1" Grid.Column="1"  Text="{Binding main.humidity, StringFormat= '{}{0} %'}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center" />
 
-                    <Label Grid.Row="2" Text=" "></Label>
+                        <Label Grid.Row="2" Text=" "></Label>
 
-                    <Image Grid.Row="3" Source="sunrise.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-                    <Label Grid.Row="4" Text="{Binding sys.sunrise, Converter={StaticResource longToDateTimeConverter}}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center" />
+                        <Image Grid.Row="3" Source="sunrise.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+                        <Label Grid.Row="4" Text="{Binding sys.sunrise, Converter={StaticResource longToDateTimeConverter}}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center" />
 
-                    <Image Grid.Row="3" Grid.Column="1" Source="sunset.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding sys.sunset, Converter={StaticResource longToDateTimeConverter}}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Grid>
+                        <Image Grid.Row="3" Grid.Column="1" Source="sunset.png" HeightRequest="30"  WidthRequest="30" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
+                        <Label Grid.Row="4" Grid.Column="1" Text="{Binding sys.sunset, Converter={StaticResource longToDateTimeConverter}}" Style="{StaticResource labelResultStyle}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
 
-                <Grid>
-                    
-                </Grid>
+                <Frame BackgroundColor="#154163">
+                    <StackLayout>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="Date" HorizontalOptions="Start" VerticalOptions="Center" FontSize="15"/>
+                            <Label Grid.Column="1" Text="Time" HorizontalOptions="Start" VerticalOptions="Center" FontSize="15"/>
+                            <Label Grid.Column="2" Text="Temperature" HorizontalOptions="Start" VerticalOptions="Center" FontSize="15"/>
+                        </Grid>
+                        <CollectionView x:Name="forecastDataList" ItemsLayout="VerticalList" VerticalOptions="FillAndExpand" HeightRequest="240">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" Text="{Binding FormattedDate}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        <Label Grid.Column="1" Text="{Binding dt ,Converter={StaticResource longToDateTimeConverter}}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="{Binding main.temp, StringFormat= '{}{0} °C'}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Grid>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Frame>
             </StackLayout>
         </ScrollView>
     </VerticalStackLayout>
