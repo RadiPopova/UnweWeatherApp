@@ -109,6 +109,7 @@ namespace UnweWeatherApp
         public DateTimeOffset dt_txt { get; set; }
         public Rain rain { get; set; }
         public string FormattedDate { get; set; }
+        public string FormattedTime { get; set;}
     }
 
 

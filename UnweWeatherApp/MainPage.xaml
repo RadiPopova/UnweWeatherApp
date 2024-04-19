@@ -171,7 +171,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Label Grid.Column="0" Text="{Binding FormattedDate}" HorizontalOptions="Center" VerticalOptions="Center" />
-                                        <Label Grid.Column="1" Text="{Binding dt ,Converter={StaticResource longToDateTimeConverter}}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Text="{Binding FormattedTime}" HorizontalOptions="Center" VerticalOptions="Center"/>
                                         <Label Grid.Column="2" Text="{Binding main.temp, StringFormat= '{}{0} °C'}" HorizontalOptions="Center" VerticalOptions="Center"/>
                                     </Grid>
 

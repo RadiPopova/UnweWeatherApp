@@ -92,23 +92,17 @@ namespace UnweWeatherApp
                 var lat = location.Latitude;
                 var lon = location.Longitude;
                 forecastData = await _openWeatherService.GetForecastData(GenerateRequestUriGeo(Constants.OpenWeatherMapGeo, lat, lon));
+
                 foreach (var row in forecastData)
                 {
-                    string originalDateTimeString = row.dt_txt.ToString();
-                    DateTime originalDateTime = DateTime.Parse(originalDateTimeString);
-                    
-                    DateTime dateOnly = originalDateTime.Date;
-                    string formattedDate = dateOnly.ToLocalTime().ToString("dd.MM");
-
+                    string formattedDate = row.dt_txt.ToLocalTime().ToString("dd.MM");
                     row.FormattedDate = formattedDate;
-                    Trace.WriteLine(row.FormattedDate  + "  /  " + row.main.temp + "  /  " + row.dt);
+                    string formattedTime = row.dt_txt.ToLocalTime().ToString("HH:mm");
+                    row.FormattedTime = formattedTime;
                 }
                 forecastDataList.ItemsSource = forecastData;
             }
         }
-       
-
-
     }
 
 }

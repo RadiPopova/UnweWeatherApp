@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Прогноза за времето"
+        Title="Weather Forecast"
         ContentTemplate="{DataTemplate local:MainPage}"
         
         Route="MainPage" />
