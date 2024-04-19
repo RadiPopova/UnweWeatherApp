@@ -97,12 +97,6 @@ namespace UnweWeatherApp
                     string originalDateTimeString = row.dt_txt.ToString();
                     DateTime originalDateTime = DateTime.Parse(originalDateTimeString);
                     
-                    if (originalDateTime.TimeOfDay == TimeSpan.Zero)
-                    {
-                        
-                        originalDateTime = originalDateTime.AddDays(1);
-                    }
-
                     DateTime dateOnly = originalDateTime.Date;
                     string formattedDate = dateOnly.ToLocalTime().ToString("dd.MM");
 
