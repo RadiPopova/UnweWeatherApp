@@ -7,11 +7,7 @@ namespace UnweWeatherApp
     public partial class MainPage : ContentPage
     {
         OpenWeatherService _openWeatherService;
-
-        public string TodayPlusTwo { get; set; } = DateTime.Now.AddDays(2).DayOfWeek.ToString();
-        public string TodayPlusThree { get; set; } = DateTime.Now.AddDays(3).DayOfWeek.ToString();
-        public string TodayPlusFour { get; set; } = DateTime.Now.AddDays(4).DayOfWeek.ToString();
-
+        
         private List<List> forecastData {  get; set; }
 
         
